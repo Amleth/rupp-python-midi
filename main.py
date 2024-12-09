@@ -10,6 +10,7 @@ mid.tracks.append(track)
 
 def convert_note_name_to_midi_value(x):
     x = x.strip()
+    x = x.lower()
 
     notes = {
         "d": 2,
