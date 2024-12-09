@@ -1,5 +1,7 @@
 import csv
-from mido import Message, MidiFile, MidiTrack
+from mido import bpm2tempo, Message, MidiFile, MidiTrack, second2tick
+
+bpm = 60
 
 mid = MidiFile()
 track = MidiTrack()
@@ -10,9 +12,10 @@ with open('data.csv', mode='r') as file:
 
     for row in csv_reader:
         pitch = int(row[0])
-        duration = int(row[1])
+        duration = float(row[1])
+        duration = second2tick(duration, mid.ticks_per_beat, bpm2tempo(bpm))
 
         track.append(Message('note_on', note=pitch, velocity=64, time=0))
-        track.append(Message('note_off', note=pitch, velocity=64, time=duration * 480))
+        track.append(Message('note_off', note=pitch, velocity=64, time=duration))
 
 mid.save('file.mid')
