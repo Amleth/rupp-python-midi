@@ -6,8 +6,10 @@ bpm = 60
 mid = MidiFile()
 track_left = MidiTrack()
 track_right = MidiTrack()
+track_beat = MidiTrack()
 mid.tracks.append(track_left)
 mid.tracks.append(track_right)
+mid.tracks.append(track_beat)
 
 
 def convert_note_name_to_midi_value(x):
@@ -40,5 +42,9 @@ def process_track(f, t):
 
 process_track('left.csv', track_left)
 process_track('right.csv', track_right)
+
+for i in range(0, 8):
+    track_beat.append(Message('note_on', note=60, velocity=64, time=0))
+    track_beat.append(Message('note_off', note=60, velocity=64, time=mid.ticks_per_beat))
 
 mid.save('file.mid')
