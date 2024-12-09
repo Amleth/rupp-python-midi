@@ -1,7 +1,8 @@
 import csv
 from mido import bpm2tempo, Message, MidiFile, MidiTrack, second2tick
 
-bpm = 60
+battue = 0.3
+bpm = 60 * battue
 
 mid = MidiFile()
 track_left = MidiTrack()
@@ -45,6 +46,6 @@ process_track('right.csv', track_right)
 
 for i in range(0, 8):
     track_beat.append(Message('note_on', note=60, velocity=64, time=0))
-    track_beat.append(Message('note_off', note=60, velocity=64, time=mid.ticks_per_beat))
+    track_beat.append(Message('note_off', note=60, velocity=64, time=int(battue * mid.ticks_per_beat)))
 
 mid.save('file.mid')
