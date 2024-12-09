@@ -7,11 +7,26 @@ mid = MidiFile()
 track = MidiTrack()
 mid.tracks.append(track)
 
+
+def convert_note_name_to_midi_value(x):
+    x = x.strip()
+
+    notes = {
+        "d": 2,
+        "e": 4,
+        "g": 7,
+        "a": 9,
+        "b": 11
+    }
+    note_name = x[0]
+    return notes[note_name] + 12 * int(x[1:])
+
+
 with open('data.csv', mode='r') as file:
     csv_reader = csv.reader(file)
 
     for row in csv_reader:
-        pitch = int(row[0])
+        pitch = convert_note_name_to_midi_value(row[0])
         duration = float(row[1])
         duration = second2tick(duration, mid.ticks_per_beat, bpm2tempo(bpm))
 
